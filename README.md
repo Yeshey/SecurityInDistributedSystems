@@ -8,11 +8,13 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
   - [1.3. Professor notices](#13-professor-notices)
   - [1.4. Credentials](#14-credentials)
 - [2. ssh](#2-ssh)
-  - [2.1. setting up ssh tunneling to connect and send files to the server](#21-setting-up-ssh-tunneling-to-connect-and-send-files-to-the-server)
-  - [2.2. Credentials](#22-credentials)
-  - [2.3. Random Notes](#23-random-notes)
+  - [2.1. ssh without password (using a public and a private key)](#21-ssh-without-password-using-a-public-and-a-private-key)
+  - [2.2. setting up ssh tunneling to connect and send files to the server](#22-setting-up-ssh-tunneling-to-connect-and-send-files-to-the-server)
+  - [2.3. Credentials](#23-credentials)
+  - [2.4. Random Notes](#24-random-notes)
 - [3. web server](#3-web-server)
-  - [3.1. Credentials](#31-credentials)
+  - [3.1. Link to server](#31-link-to-server)
+  - [3.2. Credentials](#32-credentials)
 - [4. Docker](#4-docker)
   - [4.1. Commands](#41-commands)
 
@@ -99,7 +101,11 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
 
 ## 2. ssh
 
-### 2.1. setting up [ssh tunneling](https://superuser.com/questions/456438/how-do-i-scp-a-file-through-an-intermediate-server) to connect and send files to the server
+### 2.1. ssh without password (using a public and a private key)
+
+- Watch [this](https://www.youtube.com/watch?v=lKXMyln_5q4)
+
+### 2.2. setting up [ssh tunneling](https://superuser.com/questions/456438/how-do-i-scp-a-file-through-an-intermediate-server) to connect and send files to the server
 
 - add this to your ~/.ssh/config file:
 
@@ -113,13 +119,13 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
 - You can then ssh with `ssh haw`
 - Or copy files to there with: `scp ./folderName.tgz haw:~`
 
-### 2.2. Credentials
+### 2.3. Credentials
 
 - When doing `ssh haw`:
   - FIrst input your password for your haw account
   - Input the machine's password: *Tierlieb* *(should change)*
 
-### 2.3. Random Notes
+### 2.4. Random Notes
 
 - If you wanted to login without typing a password, you had to put the public key of your computer on the remote servers, and do ssh tunneling somehow.
 - Go to the server and in a .ssh put my public key from your PC..?
@@ -132,7 +138,9 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
   - html at `DockerBlueprintApacheServ/userdata/webportal/index.html`  
   or inside container: `/userdata/webportal/index.html`
 
-### 3.1. Credentials
+### 3.1. [Link to server](https://svs24.ful.informatik.haw-hamburg.de/)
+
+### 3.2. Credentials
 
 - Basic Authentication, used [this](https://www.youtube.com/watch?v=00bwCjPp-FU&ab_channel=TonyTeachesTech) to setup
   - User: admin
