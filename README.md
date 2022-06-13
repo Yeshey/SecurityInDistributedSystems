@@ -14,6 +14,7 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
   - [2.4. Random Notes](#24-random-notes)
 - [3. web server](#3-web-server)
   - [3.1. Link to server](#31-link-to-server)
+    - [3.1.1. Check the Certificate Quality](#311-check-the-certificate-quality)
   - [3.2. Credentials](#32-credentials)
 - [4. Docker](#4-docker)
   - [4.1. Commands](#41-commands)
@@ -122,7 +123,7 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
 ### 2.3. Credentials
 
 - When doing `ssh haw`:
-  - FIrst input your password for your haw account
+  - First input your password for your haw account
   - Input the machine's password: *Tierlieb* *(should change)*
 
 ### 2.4. Random Notes
@@ -139,6 +140,8 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
   or inside container: `/userdata/webportal/index.html`
 
 ### 3.1. [Link to server](https://svs24.ful.informatik.haw-hamburg.de/)
+
+#### 3.1.1. [Check the Certificate Quality](https://www.ssllabs.com/ssltest/analyze.html?d=svs24.ful.informatik.haw%2dhamburg.de&latest)
 
 ### 3.2. Credentials
 
