@@ -7,6 +7,7 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
   - [1.2. Random Notes](#12-random-notes)
   - [1.3. Professor notices](#13-professor-notices)
   - [1.4. Credentials](#14-credentials)
+  - [1.5. Make browser be able to accept it as a certificate authority](#15-make-browser-be-able-to-accept-it-as-a-certificate-authority)
 - [2. ssh](#2-ssh)
   - [2.1. ssh without password (using a public and a private key)](#21-ssh-without-password-using-a-public-and-a-private-key)
   - [2.2. setting up ssh tunneling to connect and send files to the server](#22-setting-up-ssh-tunneling-to-connect-and-send-files-to-the-server)
@@ -99,6 +100,8 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
 ### 1.4. Credentials
 
 - Our certificates passphrase: *Stunt-Headwear-Lung1*
+
+### 1.5. [Make browser be able to accept it as a certificate authority](https://serverfault.com/questions/919768/cannot-add-a-self-signed-certificate-in-firefox)
 
 ## 2. ssh
 
