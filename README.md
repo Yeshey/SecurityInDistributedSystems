@@ -38,7 +38,7 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
         │   └── tls-ca.conf
         ```
 
-  2. [Create Root CA](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#create-root-ca)
+  2. [Create Root CA](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#create-root-ca)B
   3. [Create TLS (intermidiate) CA](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#create-tls-ca)
   4. [Create TLS server certificate](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#operate-tls-ca) until ~6.3.
      1. This with all the infor for the haw server:
@@ -127,7 +127,7 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
 
 - When doing `ssh haw`:
   - First input your password for your haw account
-  - Input the machine's password: *Tierlieb* *(should change)*
+  - Input the machine's password: *BigDickEnergy* *(should change)*
 
 ### 2.4. Random Notes
 
