@@ -103,45 +103,6 @@ openssl pkcs12 -export \
     -certfile ca/tls-ca-chain.pem \
     -out certs/$COMMONNAME.p12
 
-: '
-
-echo "6.4 Creating TLS client request"
-openssl req -new \
-    -config etc/client.conf \
-    -out certs/barney.csr \
-    -keyout certs/barney.key
-
-echo "6.5 Create TLS client certificate"
-openssl ca \
-    -config etc/tls-ca.conf \
-    -in certs/barney.csr \
-    -out certs/barney.crt \
-    -policy extern_pol \
-    -extensions client_ext
-
-echo "6.6 Creating PKCS#12 bundle"
-openssl pkcs12 -export \
-    -name "Barney Rubble (Network Access)" \
-    -caname "Green TLS CA" \
-    -caname "Green Root CA" \
-    -inkey certs/barney.key \
-    -in certs/barney.crt \
-    -certfile ca/tls-ca-chain.pem \
-    -out certs/barney.p12
-
-echo "6.7 Revoke certificate"
-openssl ca \
-    -config etc/tls-ca.conf \
-    -revoke ca/tls-ca/02.pem \
-    -crl_reason affiliationChanged
-
-echo "6.8 Creating CRL"
-openssl ca -gencrl \
-    -config etc/tls-ca.conf \
-    -out crl/tls-ca.crl
-
-'
-
 echo "Creating CA-bundle file from CRT files"
 # https://cleantalk.org/help/ssl-ca-bundle
 cat ./ca/root-ca.crt ./ca/tls-ca.crt > ./ca/svs24.ca-bundle
