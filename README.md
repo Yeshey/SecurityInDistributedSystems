@@ -80,7 +80,8 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
         ```
 
      2. notice how we also had to add `prompt = no` for it to work
-  5. Stich the 3 together in a bundle [with this site](https://cleantalk.org/help/ssl-ca-bundle)
+  5. Stich the 3 together in a bundle [with this site](https://cleantalk.org/help/ssl-ca-bundle)  
+     It has to be in the right order: `cat ./certs/svs24.ful.informatik.haw-hamburg.de.crt ./ca/tls-ca.crt ./ca/root-ca.crt > ./ca/svs24.ca-bundle`
 
 ### 1.2. Random Notes
 
