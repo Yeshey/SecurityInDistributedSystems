@@ -80,6 +80,7 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
         ```
 
      2. notice how we also had to add `prompt = no` for it to work
+  5. Stich the 3 together in a bundle [with this site](https://cleantalk.org/help/ssl-ca-bundle)
 
 ### 1.2. Random Notes
 

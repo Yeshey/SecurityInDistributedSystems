@@ -103,6 +103,8 @@ openssl pkcs12 -export \
     -certfile ca/tls-ca-chain.pem \
     -out certs/$COMMONNAME.p12
 
+: '
+
 echo "6.4 Creating TLS client request"
 openssl req -new \
     -config etc/client.conf \
@@ -137,3 +139,9 @@ echo "6.8 Creating CRL"
 openssl ca -gencrl \
     -config etc/tls-ca.conf \
     -out crl/tls-ca.crl
+
+'
+
+echo "Creating CA-bundle file from CRT files"
+# https://cleantalk.org/help/ssl-ca-bundle
+cat ./ca/root-ca.crt ./ca/tls-ca.crt > ./ca/svs24.ca-bundle
