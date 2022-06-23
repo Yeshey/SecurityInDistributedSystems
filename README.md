@@ -15,10 +15,14 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
   - [2.4. Random Notes](#24-random-notes)
 - [3. web server](#3-web-server)
   - [3.1. Link to server](#31-link-to-server)
-    - [3.1.1. Check the Certificate Quality](#311-check-the-certificate-quality)
-  - [3.2. Credentials](#32-credentials)
+  - [3.2. Check the Certificate Quality](#32-check-the-certificate-quality)
+  - [3.3. Credentials](#33-credentials)
 - [4. Docker](#4-docker)
   - [4.1. Commands](#41-commands)
+- [5. Forward Secrecy](#5-forward-secrecy)
+  - [5.1 Enabling forward secrecy on apache](#51-enabling-forward-secrecy-on-apache)
+- [6. Firewall](#6-firewall)
+  - [6.1 Install and configure IPTables](#61-install-and-configure-iptables)
 
 ## 1. certificates
 
@@ -38,7 +42,7 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
         │   └── tls-ca.conf
         ```
 
-  2. [Create Root CA](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#create-root-ca)B
+  2. [Create Root CA](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#create-root-ca)
   3. [Create TLS (intermidiate) CA](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#create-tls-ca)
   4. [Create TLS server certificate](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#operate-tls-ca) until ~6.3.
      1. This with all the infor for the haw server:
@@ -144,9 +148,9 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
 
 ### 3.1. [Link to server](https://svs24.ful.informatik.haw-hamburg.de/)
 
-#### 3.1.1. [Check the Certificate Quality](https://www.ssllabs.com/ssltest/analyze.html?d=svs24.ful.informatik.haw%2dhamburg.de&latest)
+### 3.2. [Check the Certificate Quality](https://www.ssllabs.com/ssltest/analyze.html?d=svs24.ful.informatik.haw%2dhamburg.de&latest)
 
-### 3.2. Credentials
+### 3.3. Credentials
 
 - Basic Authentication, used [this](https://www.youtube.com/watch?v=00bwCjPp-FU&ab_channel=TonyTeachesTech) to setup
   - User: admin
@@ -162,3 +166,15 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
   ```bash
   docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker build -t svs:latest . ; docker run -d -p 80:80 -p 443:443 --name svs svs:latest
   ```
+
+## 5. Forward Secrecy
+
+### 5.1 Enabling forward secrecy on apache
+
+- Configuration setup, use [this](https://www.digicert.com/kb/ssl-support/ssl-enabling-perfect-forward-secrecy.htm)
+
+## 6. Firewall
+
+### 6.1 Install and configure IPTables
+
+- Installation and configuration, used [this](https://www.hostinger.com/tutorials/iptables-tutorial)
