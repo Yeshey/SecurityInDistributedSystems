@@ -54,7 +54,7 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
         SAN                     = DNS:ful.informatik.haw-hamburg.de
 
         [ req ]
-        default_bits            = 2048
+        default_bits            = 4096
         encrypt_key             = no
         default_md              = sha256
         string_mask             = nombstr
