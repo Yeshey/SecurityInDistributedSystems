@@ -105,4 +105,4 @@ openssl pkcs12 -export \
 
 echo "Creating CA-bundle file from CRT files"
 # https://cleantalk.org/help/ssl-ca-bundle
-cat ./ca/tls-ca.crt ./ca/root-ca.crt > ./ca/svs24.ca-bundle
+cat ./certs/svs24.ful.informatik.haw-hamburg.de.crt ./ca/tls-ca.crt ./ca/root-ca.crt > ./ca/svs24.ca-bundle
