@@ -96,8 +96,8 @@ openssl ca \
 echo "6.3 Creating PKCS#12 bundle"
 openssl pkcs12 -export \
     -name "$COMMONNAME (Network Component)" \
-    -caname "Green TLS CA" \
-    -caname "Green Root CA" \
+    -caname "Haw TLS CA" \
+    -caname "Haw Root CA" \
     -inkey certs/$COMMONNAME.key \
     -in certs/$COMMONNAME.crt \
     -certfile ca/tls-ca-chain.pem \
@@ -105,4 +105,4 @@ openssl pkcs12 -export \
 
 echo "Creating CA-bundle file from CRT files"
 # https://cleantalk.org/help/ssl-ca-bundle
-cat ./ca/root-ca.crt ./ca/tls-ca.crt > ./ca/svs24.ca-bundle
+cat ./ca/tls-ca.crt ./ca/root-ca.crt > ./ca/svs24.ca-bundle
