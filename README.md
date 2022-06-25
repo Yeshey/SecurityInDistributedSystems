@@ -179,4 +179,4 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
 
 ### 6.1 Install and configure IPTables
 
-- Installation and configuration, used [this](https://www.hostinger.com/tutorials/iptables-tutorial)
+- Installation and configuration, used [this](https://www.hostinger.com/tutorials/iptables-tutorial) and [this]https://www.youtube.com/watch?v=qPEA6J9pjG8 
