@@ -4,10 +4,15 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
 
 - [1. certificates](#1-certificates)
   - [1.1. Tutorials](#11-tutorials)
-  - [1.2. Random Notes](#12-random-notes)
-  - [1.3. Professor notices](#13-professor-notices)
-  - [1.4. Credentials](#14-credentials)
-  - [1.5. Make browser be able to accept it as a certificate authority](#15-make-browser-be-able-to-accept-it-as-a-certificate-authority)
+  - [1.2. Creation](#12-creation)
+    - [1.2.1. Making Root, intermidiate & svs certificates](#121-making-root-intermidiate--svs-certificates)
+    - [1.2.2. Stich the 3 together in a bundle with this site](#122-stich-the-3-together-in-a-bundle-with-this-site)
+    - [1.2.3. Adding CRL revogation lists](#123-adding-crl-revogation-lists)
+  - [1.3. Understanding the certs & hierarchy](#13-understanding-the-certs--hierarchy)
+  - [1.4. Random Notes](#14-random-notes)
+  - [1.5. Professor notices](#15-professor-notices)
+  - [1.6. Credentials](#16-credentials)
+  - [1.7. Make browser be able to accept it as a certificate authority](#17-make-browser-be-able-to-accept-it-as-a-certificate-authority)
 - [2. ssh](#2-ssh)
   - [2.1. ssh without password (using a public and a private key)](#21-ssh-without-password-using-a-public-and-a-private-key)
   - [2.2. setting up ssh tunneling to connect and send files to the server](#22-setting-up-ssh-tunneling-to-connect-and-send-files-to-the-server)
@@ -20,22 +25,22 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
 - [4. Docker](#4-docker)
   - [4.1. Commands](#41-commands)
 - [5. Forward Secrecy](#5-forward-secrecy)
-  - [5.1 Enabling forward secrecy on apache](#51-enabling-forward-secrecy-on-apache)
+  - [5.1. 5.1 Enabling forward secrecy on apache](#51-51-enabling-forward-secrecy-on-apache)
 - [6. Firewall](#6-firewall)
-  - [6.1 Install and configure IPTables](#61-install-and-configure-iptables)
+  - [6.1. 6.1 Install and configure IPTables](#61-61-install-and-configure-iptables)
 
 ## 1. certificates
 
 ### 1.1. Tutorials
 
-- [PKI guide from prfessor](https://pki-tutorial.readthedocs.io/en/latest/#), It talks about the 3 layered structure in the [Advanced PKI Example](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html)
+- [PKI guide from professor](https://pki-tutorial.readthedocs.io/en/latest/#), It talks about the 3 layered structure in the [Advanced PKI Example](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html)
 - <s>[Our Tutorial](https://www.golinuxcloud.com/openssl-create-certificate-chain-linux/#Root_vs_Intermediate_Certificate) (didn't end up working)</s>
 - [JusT](https://github.com/JOSEALM3IDA)'s suggested [tutorial](https://superuser.com/questions/126121/how-to-create-my-own-certificate-chain)
 - [Carol's](https://github.com/carolinafigueiredo1?tab=repositories) suggested [tutorial](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html) (the one that worked!)  
 
-### Creation
+### 1.2. Creation
 
-#### Making Root, intermidiate & svs certificates
+#### 1.2.1. Making Root, intermidiate & svs certificates
 
 Check `DockerBlueprintApacheServ/certs/regenerate_certs.sh` for all the command to be ran.  
 
@@ -90,12 +95,12 @@ Using [Carol's](https://github.com/carolinafigueiredo1?tab=repositories) suggest
 
     2. notice how we also had to add `prompt = no` for it to work
 
-#### Stich the 3 together in a bundle [with this site](https://cleantalk.org/help/ssl-ca-bundle)
+#### 1.2.2. Stich the 3 together in a bundle [with this site](https://cleantalk.org/help/ssl-ca-bundle)
 
 It has to be in the right order:  
 `cat ./certs/svs24.ful.informatik.haw-hamburg.de.crt ./ca/tls-ca.crt ./ca/root-ca.crt > ./ca/svs24.ca-bundle`
 
-#### Adding CRL revogation lists
+#### 1.2.3. [Adding CRL revogation lists](https://jamielinux.com/docs/openssl-certificate-authority/certificate-revocation-lists.html#re-create-the-crl)
 
 1. Check `apache2-user-config.conf` file
     1. You have to make the crl files publicly available. So add the root (`root-ca.crl`) and intermidiate (`tls-ca.crl`) crl files in the apache server in the http zone, so you can access it through `http:xxxx/root-ca.crl`
@@ -104,14 +109,15 @@ It has to be in the right order:
     1. Add `crlDistributionPoints = URI:http://svs24.ful.informatik.haw-hamburg.de/root-ca.crl` in the `root-ca.conf` file
     2. Add `crlDistributionPoints = URI:http://svs24.ful.informatik.haw-hamburg.de/tls-ca.crl` in the `tls-ca.conf` file
 
-### Understanding the certs & hierarchy
+### 1.3. Understanding the certs & hierarchy
 
 0. Check `DockerBlueprintApacheServ/certs/regenerate_certs.sh` for all the command to be ran.  
 1. `openssl req` creates a a certificate  
    `openssl ca` signs a certificate with another
-2. The root places in the certs it signs a crlDistributionPoints section pointing to root's crl file (which is a list of revoked certs it signed) publicly available in roots server, so root can revoke certs it signs before their expiration if need be. 
-    1. The root certificate has in its "signing other certs configuration" `crlDistributionPoints = URI:http:xxxx/root-ca.crl`. Which is the `[ signing_ca_ext ]` section in `root-ca.conf` 
+2. The root places in the certs it signs a crlDistributionPoints section pointing to root's crl file (which is a list of revoked certs it signed) publicly available in roots server, so root can revoke certs it signs before their expiration if need be.
+    1. The root certificate has in its "signing other certs configuration" `crlDistributionPoints = URI:http:xxxx/root-ca.crl`. Which is the `[ signing_ca_ext ]` section in `root-ca.conf`
     2. You can notice, when you sign other certs with root, we call this section in `root-ca.conf`
+
       ```bash
         echo "3.4 Creating intermidiate certificate"
         openssl ca \
@@ -120,10 +126,13 @@ It has to be in the right order:
             -out ca/tls-ca.crt \
             -extensions signing_ca_ext # !!!
       ```
-3. As root is self signing, its `crlDistributionPoints` points to its wn list
-4. Check the following images to understand the hierarchy:
 
-### 1.2. Random Notes
+3. As root is self signing, its `crlDistributionPoints` points to its wn list
+4. Check the following image to understand the hierarchy:
+
+![SelfSigned](.imgs/SelfSigned.png)
+
+### 1.4. Random Notes
 
 - Letters meaning in creation of certificates:
 
@@ -136,18 +145,18 @@ It has to be in the right order:
     C: CountryName 
   ```
 
-### 1.3. Professor notices
+### 1.5. Professor notices
 
 - key size should be at least 4096
 - being a certification authority : yes / no (yes for root certificate, yes for the 2nd certificate, no for the last one?)
 - see the Universities certificate (in firefox click the lock in the site and view certificate in the new window
-- CRLs endpoint of CA certificates (revocation links?) (you can use http://svsXX. as server for CRL)
+- CRLs endpoint of CA certificates (revocation links?) (you can use <http://svsXX>. as server for CRL)
 
-### 1.4. Credentials
+### 1.6. Credentials
 
 - Our certificates passphrase: *Stunt-Headwear-Lung1*
 
-### 1.5. [Make browser be able to accept it as a certificate authority](https://serverfault.com/questions/919768/cannot-add-a-self-signed-certificate-in-firefox)
+### 1.7. [Make browser be able to accept it as a certificate authority](https://serverfault.com/questions/919768/cannot-add-a-self-signed-certificate-in-firefox)
 
 ## 2. ssh
 
@@ -211,12 +220,12 @@ It has to be in the right order:
 
 ## 5. Forward Secrecy
 
-### 5.1 Enabling forward secrecy on apache
+### 5.1. 5.1 Enabling forward secrecy on apache
 
 - Configuration setup, use [this](https://www.digicert.com/kb/ssl-support/ssl-enabling-perfect-forward-secrecy.htm)
 
 ## 6. Firewall
 
-### 6.1 Install and configure IPTables
+### 6.1. 6.1 Install and configure IPTables
 
 - Installation and configuration, used [this](https://www.hostinger.com/tutorials/iptables-tutorial) and [this](https://www.youtube.com/watch?v=qPEA6J9pjG8)
