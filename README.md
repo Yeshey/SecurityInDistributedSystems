@@ -147,11 +147,6 @@ It has to be in the right order:
 
 ### 1.5. Professor notices
 
-- key size should be at least 4096
-- being a certification authority : yes / no (yes for root certificate, yes for the 2nd certificate, no for the last one?)
-- see the Universities certificate (in firefox click the lock in the site and view certificate in the new window
-- CRLs endpoint of CA certificates (revocation links?) (you can use <http://svsXX>. as server for CRL)
-
 ### 1.6. Credentials
 
 - Our certificates passphrase: *Stunt-Headwear-Lung1*
