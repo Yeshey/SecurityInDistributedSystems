@@ -32,56 +32,96 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
 - <s>[Our Tutorial](https://www.golinuxcloud.com/openssl-create-certificate-chain-linux/#Root_vs_Intermediate_Certificate) (didn't end up working)</s>
 - [JusT](https://github.com/JOSEALM3IDA)'s suggested [tutorial](https://superuser.com/questions/126121/how-to-create-my-own-certificate-chain)
 - [Carol's](https://github.com/carolinafigueiredo1?tab=repositories) suggested [tutorial](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html) (the one that worked!)  
-  1. Starting with just the conf files
 
-        ```txt
-        ├── etc
-        │   ├── openssl_changed.conf
-        │   ├── root-ca.conf
-        │   ├── server.conf
-        │   └── tls-ca.conf
-        ```
+### Creation
 
-  2. [Create Root CA](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#create-root-ca)
-  3. [Create TLS (intermidiate) CA](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#create-tls-ca)
-  4. [Create TLS server certificate](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#operate-tls-ca) until ~6.3.
-     1. This with all the infor for the haw server:
+#### Making Root, intermidiate & svs certificates
 
-        ```conf
-        ## TLS server Configuration File
+Check `DockerBlueprintApacheServ/certs/regenerate_certs.sh` for all the command to be ran.  
 
-        [ default ]
-        SAN                     = DNS:ful.informatik.haw-hamburg.de
+Using [Carol's](https://github.com/carolinafigueiredo1?tab=repositories) suggested [tutorial](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html):
 
-        [ req ]
-        default_bits            = 4096
-        encrypt_key             = no
-        default_md              = sha256
-        string_mask             = nombstr
-        prompt                  = yes
-        distinguished_name      = server_dn
-        req_extensions          = server_reqext
-        prompt = no
+1. Starting with just the conf files
 
-        [ server_dn ]
-        countryName             = DE
-        stateOrProvinceName     = Hamburg
-        organizationName        = haw-hamburg
-        organizationalUnitName  = SVS
-        commonName              = svs24.ful.informatik.haw-hamburg.de
+      ```txt
+      ├── etc
+      │   ├── openssl_changed.conf
+      │   ├── root-ca.conf
+      │   ├── server.conf
+      │   └── tls-ca.conf
+      ```
 
-        [ server_reqext ]
+2. [Create Root CA](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#create-root-ca)
+3. [Create TLS (intermidiate) CA](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#create-tls-ca)
+4. [Create TLS server certificate](https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#operate-tls-ca) until ~6.3.
+    1. This with all the infor for the haw server:
 
-        keyUsage                = critical,digitalSignature,keyEncipherment
-        extendedKeyUsage        = serverAuth,clientAuth
-        subjectKeyIdentifier    = hash
-        subjectAltName          = $ENV::SAN
+      ```conf
+      ## TLS server Configuration File
 
-        ```
+      [ default ]
+      SAN                     = DNS:ful.informatik.haw-hamburg.de
 
-     2. notice how we also had to add `prompt = no` for it to work
-  5. Stich the 3 together in a bundle [with this site](https://cleantalk.org/help/ssl-ca-bundle)  
-     It has to be in the right order: `cat ./certs/svs24.ful.informatik.haw-hamburg.de.crt ./ca/tls-ca.crt ./ca/root-ca.crt > ./ca/svs24.ca-bundle`
+      [ req ]
+      default_bits            = 4096
+      encrypt_key             = no
+      default_md              = sha256
+      string_mask             = nombstr
+      prompt                  = yes
+      distinguished_name      = server_dn
+      req_extensions          = server_reqext
+      prompt = no
+
+      [ server_dn ]
+      countryName             = DE
+      stateOrProvinceName     = Hamburg
+      organizationName        = haw-hamburg
+      organizationalUnitName  = SVS
+      commonName              = svs24.ful.informatik.haw-hamburg.de
+
+      [ server_reqext ]
+
+      keyUsage                = critical,digitalSignature,keyEncipherment
+      extendedKeyUsage        = serverAuth,clientAuth
+      subjectKeyIdentifier    = hash
+      subjectAltName          = $ENV::SAN
+
+      ```
+
+    2. notice how we also had to add `prompt = no` for it to work
+
+#### Stich the 3 together in a bundle [with this site](https://cleantalk.org/help/ssl-ca-bundle)
+
+It has to be in the right order:  
+`cat ./certs/svs24.ful.informatik.haw-hamburg.de.crt ./ca/tls-ca.crt ./ca/root-ca.crt > ./ca/svs24.ca-bundle`
+
+#### Adding CRL revogation lists
+
+1. Check `apache2-user-config.conf` file
+    1. You have to make the crl files publicly available. So add the root (`root-ca.crl`) and intermidiate (`tls-ca.crl`) crl files in the apache server in the http zone, so you can access it through `http:xxxx/root-ca.crl`
+    2. [We also made them inaccessible in https](https://serverfault.com/questions/22577/how-to-deny-the-web-access-to-some-files)
+2. The certificates have to add their own revocation list to the certs they sign. the root will add its own crl, and the intermidiate will add its own
+    1. Add `crlDistributionPoints = URI:http://svs24.ful.informatik.haw-hamburg.de/root-ca.crl` in the `root-ca.conf` file
+    2. Add `crlDistributionPoints = URI:http://svs24.ful.informatik.haw-hamburg.de/tls-ca.crl` in the `tls-ca.conf` file
+
+### Understanding the certs & hierarchy
+
+0. Check `DockerBlueprintApacheServ/certs/regenerate_certs.sh` for all the command to be ran.  
+1. `openssl req` creates a a certificate  
+   `openssl ca` signs a certificate with another
+2. The root places in the certs it signs a crlDistributionPoints section pointing to root's crl file (which is a list of revoked certs it signed) publicly available in roots server, so root can revoke certs it signs before their expiration if need be. 
+    1. The root certificate has in its "signing other certs configuration" `crlDistributionPoints = URI:http:xxxx/root-ca.crl`. Which is the `[ signing_ca_ext ]` section in `root-ca.conf` 
+    2. You can notice, when you sign other certs with root, we call this section in `root-ca.conf`
+      ```bash
+        echo "3.4 Creating intermidiate certificate"
+        openssl ca \
+            -config etc/root-ca.conf \
+            -in ca/tls-ca.csr \
+            -out ca/tls-ca.crt \
+            -extensions signing_ca_ext # !!!
+      ```
+3. As root is self signing, its `crlDistributionPoints` points to its wn list
+4. Check the following images to understand the hierarchy:
 
 ### 1.2. Random Notes
 
