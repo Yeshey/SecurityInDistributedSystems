@@ -145,8 +145,6 @@ It has to be in the right order:
     C: CountryName 
   ```
 
-### 1.5. Professor notices
-
 ### 1.6. Credentials
 
 - Our certificates passphrase: *Stunt-Headwear-Lung1*
@@ -213,14 +211,17 @@ It has to be in the right order:
   docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker build -t svs:latest . ; docker run -d -p 80:80 -p 443:443 --name svs svs:latest
   ```
 
-## 5. Forward Secrecy
-
-### 5.1. 5.1 Enabling forward secrecy on apache
-
-- Configuration setup, use [this](https://www.digicert.com/kb/ssl-support/ssl-enabling-perfect-forward-secrecy.htm)
-
 ## 6. Firewall
 
 ### 6.1. 6.1 Install and configure IPTables
 
 - Installation and configuration, used [this](https://www.hostinger.com/tutorials/iptables-tutorial) and [this](https://www.youtube.com/watch?v=qPEA6J9pjG8)
+
+## Professor
+
+### Questions
+
+- Are Revogation lists set up correctly?
+- How to make browser accept our certificate?, we have the thing in [this](https://serverfault.com/questions/919768/cannot-add-a-self-signed-certificate-in-firefox) site, but it still doesn't work?
+
+### Notices
