@@ -43,6 +43,9 @@ COPY userdata /userdata
 
 # certificates
 COPY certs /certs
+# for revocation list, make crls publicly available
+COPY certs/crl/* /userdata/webportal/
+
 # basic Authentication
 COPY basicAuth/.htpasswd /etc/apache2/.htpasswd
 
