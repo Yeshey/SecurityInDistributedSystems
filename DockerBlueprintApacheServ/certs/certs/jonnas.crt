@@ -1,0 +1,128 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 1 (0x1)
+        Signature Algorithm: sha256WithRSAEncryption
+        Issuer: C=DE, ST=Hamburg, O=haw-hamburg, OU=SVS, CN=Sub-CA-24-User
+        Validity
+            Not Before: Jun 29 21:41:41 2022 GMT
+            Not After : Jun 26 21:41:41 2023 GMT
+        Subject: C=DE, ST=Hamburg, L=Hamburg, O=haw-hamburg, OU=SVS, CN=Joao Filipe Silva de Almeida
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                RSA Public-Key: (4096 bit)
+                Modulus:
+                    00:c4:4b:98:48:3b:d9:1f:13:08:2e:99:a2:03:03:
+                    13:92:b0:28:2e:09:63:4d:cc:6d:86:38:99:49:b3:
+                    9c:04:39:34:58:ed:fc:fa:53:d1:f0:19:ac:1e:ee:
+                    68:b7:4f:7d:70:62:d0:b0:44:8c:c1:5b:95:1e:91:
+                    b5:85:1f:0a:05:de:a4:9c:aa:c0:fa:b1:07:1f:b6:
+                    35:8b:c7:05:70:27:d5:ef:de:5d:24:8e:e6:4e:29:
+                    af:a8:e1:0b:97:b8:b5:bd:47:16:7c:f1:9c:b8:52:
+                    05:9b:f2:49:5d:a7:21:2c:88:d3:84:b9:51:5f:77:
+                    75:1e:35:8c:6e:9e:8a:91:c7:16:5b:e6:d8:b7:0e:
+                    49:50:4f:0c:3e:17:e1:15:d3:c0:e1:81:52:27:b3:
+                    fd:63:77:29:9a:5f:50:9f:93:fb:ce:69:6a:25:78:
+                    36:fa:f4:b1:b8:6c:41:2d:be:1c:3b:d4:e4:69:ad:
+                    8d:02:81:31:5b:99:17:df:1d:84:ed:a1:a0:59:35:
+                    bc:8a:96:c0:3f:68:49:bf:46:16:ed:b5:b1:37:e7:
+                    d1:ec:ab:05:b9:a8:2f:0b:f0:0e:e4:dc:d7:69:6d:
+                    a7:26:15:6c:d1:1f:51:44:e1:c5:01:cf:7d:89:fe:
+                    91:b9:92:b3:90:b0:48:00:22:13:2c:e0:d7:2d:ea:
+                    c3:9f:49:b0:9b:f0:5f:9d:0f:d0:30:8c:e8:03:fb:
+                    90:a3:e8:13:e2:3c:b3:20:35:1c:85:db:09:ef:d1:
+                    db:4f:1d:19:20:ae:5c:f3:d7:2d:c6:93:24:8e:e1:
+                    3a:50:a2:a1:60:cb:0f:dd:8f:a0:ae:c6:6e:d6:2f:
+                    6d:59:2e:e5:8d:15:7e:7a:70:61:b8:ca:05:e6:b8:
+                    64:4d:f7:89:18:49:e7:98:84:23:39:e9:bc:f6:47:
+                    c1:80:59:30:51:98:a5:e0:78:91:c1:8b:b7:b1:58:
+                    02:72:a1:b7:07:57:cf:d9:77:5c:f0:7e:52:c0:d8:
+                    e8:c4:f9:3e:07:1d:c2:f7:32:aa:9e:5c:d8:3e:0f:
+                    68:5d:cb:d2:58:f5:33:4a:af:0c:19:89:fb:b7:bd:
+                    91:85:15:96:fb:38:24:fb:2b:d2:c8:e0:fc:fb:65:
+                    13:67:ec:d6:f8:61:92:61:48:46:a8:82:56:e8:67:
+                    02:30:3b:80:01:86:76:e9:fb:5c:68:25:1e:a7:a3:
+                    51:54:6c:94:59:16:d8:a1:07:0d:33:ee:61:84:f1:
+                    8f:d1:67:fe:2f:ec:1d:ac:61:98:09:cc:bf:7a:f8:
+                    c6:ac:b0:23:63:44:48:43:b1:a0:ab:44:bb:ec:6e:
+                    48:da:c0:9e:41:95:e5:de:3c:40:b8:81:72:1b:34:
+                    41:05:c3
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Key Usage: critical
+                Digital Signature
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            X509v3 Extended Key Usage: 
+                TLS Web Client Authentication
+            X509v3 Subject Key Identifier: 
+                66:F8:07:23:A8:A4:8F:23:58:C7:92:6F:D7:A1:43:98:D9:7F:50:6A
+            X509v3 Authority Key Identifier: 
+                keyid:5E:6B:2E:A3:13:75:4D:03:3A:60:A0:92:BB:03:E5:D4:6C:04:3F:BF
+
+            X509v3 Subject Alternative Name: 
+                email:Joao.SilvadeAlmeida@haw-hamburg.de
+    Signature Algorithm: sha256WithRSAEncryption
+         53:79:fa:19:01:72:a3:67:bb:74:d1:ce:f3:e2:08:02:dc:59:
+         c8:95:d0:cd:0e:95:4f:eb:df:b9:6b:77:72:cf:c9:05:51:6a:
+         9c:3b:91:13:9e:fe:4d:c7:0e:8d:4d:67:76:28:0f:93:cf:c0:
+         20:b3:3f:b1:df:6e:ef:09:a6:11:dd:43:97:ef:c8:54:e2:cb:
+         42:9f:7e:f5:e0:13:fe:d5:5e:08:0b:da:7e:d9:76:b1:02:14:
+         75:3f:ea:05:59:0c:c3:dc:2c:d2:b5:2d:b5:e2:5b:c3:9d:38:
+         da:ec:03:c3:9c:17:d1:c1:16:21:68:a5:f5:7e:66:11:a5:a6:
+         1b:6c:bd:1a:31:e9:88:97:93:6d:78:7c:22:24:3c:dd:ee:22:
+         99:6e:ed:84:41:5f:8b:f9:31:42:59:be:dd:6d:6d:2a:d7:a1:
+         d2:46:54:64:89:a3:6f:56:be:52:7d:2d:0e:7e:12:53:18:ca:
+         90:e5:7e:1d:7c:7d:ff:10:00:0f:41:5f:86:7e:2d:43:d4:ea:
+         f3:14:ee:4a:ef:7d:08:23:01:74:62:b9:de:89:57:4a:3e:bd:
+         a5:36:b7:50:73:dc:76:87:9b:a8:aa:24:53:df:2d:0b:41:ff:
+         f3:72:7a:d6:92:a2:ff:d5:11:1e:e1:0a:7b:cc:f6:7d:e4:e6:
+         40:23:34:64:d1:4b:78:b3:01:2c:31:77:6f:1f:bf:40:f0:f3:
+         bd:fc:4e:00:67:55:70:67:17:87:21:0c:79:4b:07:2b:1f:d0:
+         ab:76:12:89:f7:3a:06:08:a7:e5:2f:ae:09:02:fc:fa:68:80:
+         8f:5c:97:72:bd:dc:d8:8f:20:ef:6f:c0:13:40:97:e1:99:80:
+         7b:c2:ee:d6:81:7d:56:0a:24:1d:7d:c6:95:33:90:63:2b:65:
+         a4:12:9a:bb:5d:07:ab:4c:a8:36:62:6e:d2:51:52:76:ad:15:
+         46:68:51:cb:0e:87:b4:ef:62:d1:fc:d3:c9:95:e6:68:b7:b0:
+         02:59:7e:ea:a7:f9:3a:cf:b5:21:06:dc:5b:33:1f:76:8d:5e:
+         fa:df:05:0f:b3:a1:ca:40:61:1a:65:1d:e0:f0:f7:fd:7c:39:
+         34:fc:39:07:e7:8b:7a:00:20:bb:a4:3e:73:ac:5c:44:e3:0d:
+         23:55:57:b4:55:69:6b:a9:ae:ad:18:7d:fe:91:93:36:5c:b7:
+         93:03:ee:88:e6:03:57:38:41:55:a3:e2:e3:87:77:c5:ae:0f:
+         c0:a6:96:84:d7:1a:f9:11:01:e5:96:8c:f8:83:3e:b5:cc:db:
+         04:e5:ea:17:89:ff:d2:d2:cf:95:6e:21:35:30:07:dd:1c:37:
+         95:10:93:3a:12:44:39:30
+-----BEGIN CERTIFICATE-----
+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
+-----END CERTIFICATE-----
