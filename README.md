@@ -216,7 +216,12 @@ It has to be in the right order:
 ### 6.1. 6.1 Install and configure IPTables
 
 - Installation and configuration, used [this](https://www.hostinger.com/tutorials/iptables-tutorial) and [this](https://www.youtube.com/watch?v=qPEA6J9pjG8)
+- iptables-apply - a safer way to update iptables remotely
+  ```bash
+  iptables-apply [-hV] [-t timeout] [-w savefile] {[rulesfile]|-c [runcmd]}
+  ```
 
+  
 ## Professor
 
 ### Questions
