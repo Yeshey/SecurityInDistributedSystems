@@ -152,20 +152,6 @@ openssl ca \
     -out certs/jonnas.crt \
     -extensions client_ext
 
-#     -policy extern_pol \
-# try this in everything
-# string_mask             = utf8only  # <--------------
-
-#echo "6.6 Creating PKCS#12 bundle"
-#openssl pkcs12 -export \
-#    -name "jonnas Rubble (Network Access)" \
-#    -caname "Haw TLS CA" \
-#    -caname "Haw Root CA" \
-#    -inkey certs/jonnas.key \
-#    -in certs/jonnas.crt \
-#    -certfile ca/team-ca-chain.pem \
-#    -out certs/jonnas.p12
-
 mkdir giveToJonnas
 
 echo "6.7 Converting jonnas certificate + key to pfx"
@@ -178,7 +164,7 @@ echo "6.9 Converting jonnas certificate chain to p7b"
 openssl crl2pkcs7 -nocrl -certfile ./giveToJonnas/jonnas.ca-bundle -out ./giveToJonnas/jonnas.p7b
 
 # in the users computer run the following commands to retrieve these files:
-# scp svs24:/home/otto/SecurityInDistributedSystemsRepo/DockerBlueprintApacheServ/certs/giveToJonnas/\* /mnt/DataDisk/Downloads/certs/
+# scp -r svs24:/home/otto/SecurityInDistributedSystemsRepo/DockerBlueprintApacheServ/certs/giveToJonnas /mnt/DataDisk/Downloads/certs/
 
 # converter a chain toda para p7b
 # chave + certificado = pfx
