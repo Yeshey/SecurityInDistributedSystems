@@ -216,11 +216,28 @@ It has to be in the right order:
 ### 6.1. 6.1 Install and configure IPTables
 
 - Installation and configuration, used [this](https://www.hostinger.com/tutorials/iptables-tutorial) and [this](https://www.youtube.com/watch?v=qPEA6J9pjG8)
+- For scheduled commands as a safeguard, we used [this](https://www.computerhope.com/unix/uat.htm)
 - iptables-apply - a safer way to update iptables remotely
   ```bash
   iptables-apply [-hV] [-t timeout] [-w savefile] {[rulesfile]|-c [runcmd]}
   ```
-
+- We the command
+```bash
+at 
+``` 
+to create safeguard before appending rules to revert to safe ruleset after certain amount of time (this case 5 minutes)
+  ```bash
+  sudo at -vM now +5 minutes 
+  ```
+  This can used to view if there are any scheduled commands and when they will be executed
+  ```bash
+  atq
+  ```
+  Text editor will prompt for commands to be scheduled - we type
+  ```bash
+  iptables-restore /etc/iptables/1st_ruleset.v4 
+  ```
+  This is a safestate with SSH access.
   
 ## Professor
 
