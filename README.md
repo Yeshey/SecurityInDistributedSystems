@@ -132,6 +132,16 @@ It has to be in the right order:
 
 ![SelfSigned](.imgs/SelfSigned.png)
 
+1. That is one chain, the other chain is with the root cert & team cert, and is used for user athentication
+   1. The apache uses that root-team_cert chain, so it accepts all the certificates that were signed by that team certificate. (check the apache2-user-config.conf file)
+   2. The user has a certificate that was signed by the team certificate, basically the user needs:
+      1. Linux:
+         - A pfx file wich has the key and the key of the user certificate.
+         - The root, team & user crt certificate files to add to the linux system ([see this for manjaro instructions](https://warlord0blog.wordpress.com/2021/01/17/trusting-ca-certificates-manjaro/))
+      2. Windows:
+         - A pfx file wich has the key and the key of the user certificate.
+         - A p7b Microsoft file made out of all the other certificates to add to windows systems.
+
 ### 1.4. Random Notes
 
 - Letters meaning in creation of certificates:
