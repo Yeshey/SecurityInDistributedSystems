@@ -247,3 +247,6 @@ to create safeguard before appending rules to revert to safe ruleset after certa
 - How to make browser accept our certificate?, we have the thing in [this](https://serverfault.com/questions/919768/cannot-add-a-self-signed-certificate-in-firefox) site, but it still doesn't work?
 
 ### Notices
+
+- JusT:
+Tem 2 dockers a correr, backend e o normal
