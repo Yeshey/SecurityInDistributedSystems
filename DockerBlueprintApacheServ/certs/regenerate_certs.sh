@@ -178,9 +178,7 @@ echo "6.9 Converting jonnas certificate chain to p7b"
 openssl crl2pkcs7 -nocrl -certfile ./giveToJonnas/jonnas.ca-bundle -out ./giveToJonnas/jonnas.p7b
 
 # in the users computer run the following commands to retrieve these files:
-# scp svs24:/home/otto/SecurityInDistributedSystemsRepo/DockerBlueprintApacheServ/certs/giveToJonnas/jonnas.ca-bundle /mnt/DataDisk/Downloads/certs/
-# scp svs24:~/SecurityInDistributedSystemsRepo/DockerBlueprintApacheServ/certs/giveToJonnas/jonnas.p7b /mnt/DataDisk/Downloads/certs/
-# scp svs24:~/SecurityInDistributedSystemsRepo/DockerBlueprintApacheServ/certs/giveToJonnas/jonnas.pfx /mnt/DataDisk/Downloads/certs/ 
+# scp svs24:/home/otto/SecurityInDistributedSystemsRepo/DockerBlueprintApacheServ/certs/giveToJonnas/\* /mnt/DataDisk/Downloads/certs/
 
 # converter a chain toda para p7b
 # chave + certificado = pfx
