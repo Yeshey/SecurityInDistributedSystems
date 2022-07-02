@@ -136,8 +136,11 @@ echo "A.6 Creating PEM bundle"
 cat ca/team-ca.crt ca/root-ca.crt > \
     ca/team-ca-chain.pem
 
-echo "Creating user certificates"
+echo "7. Creating user certificates"
 # https://pki-tutorial.readthedocs.io/en/latest/advanced/index.html#create-tls-client-request
+
+echo "7.1. User Jonnas"
+mkdir giveToJonnas
 
 echo "6.4 Creating TLS client request"
 openssl req -new \
@@ -152,22 +155,47 @@ openssl ca \
     -out certs/jonnas.crt \
     -extensions client_ext
 
-mkdir giveToJonnas
-
-echo "6.7 Converting jonnas certificate + key to pfx"
+echo "7.1.1 Converting jonnas certificate + key to pfx"
 openssl pkcs12 -export -out giveToJonnas/jonnas.pfx -inkey certs/jonnas.key -in certs/jonnas.crt
 
-echo "6.8 Making jonnas certificate chain"
+echo "7.1.2 Making jonnas certificate chain"
 cat certs/jonnas.crt ./ca/team-ca.crt ./ca/root-ca.crt > ./giveToJonnas/jonnas.ca-bundle
 
-echo "6.9 Converting jonnas certificate chain to p7b"
+echo "7.1.3 Converting jonnas certificate chain to p7b (for Windows Microsoft)"
 openssl crl2pkcs7 -nocrl -certfile ./giveToJonnas/jonnas.ca-bundle -out ./giveToJonnas/jonnas.p7b
+
+echo "7.1.4 Jonnas also wants crt t make work in linux"
+cp  ./ca/root-ca.crt ./giveToJonnas
+cp  ./ca/team-ca.crt ./giveToJonnas
+cp  ./certs/jonnas.crt ./giveToJonnas
+
+echo "7.2. User Asguer"
+mkdir giveToAsguer
+
+echo "7.2.1 Creating TLS client request"
+openssl req -new \
+    -config etc/client.conf \
+    -out certs/asguer.csr \
+    -keyout certs/asguer.key
+
+echo "7.2.2 Creating TLS client certificate"
+openssl ca \
+    -config etc/team24-ca.conf \
+    -in certs/asguer.csr \
+    -out certs/asguer.crt \
+    -extensions client_ext
+
+echo "7.2.1 Converting asguer certificate + key to pfx"
+openssl pkcs12 -export -out giveToAsguer/asguer.pfx -inkey certs/asguer.key -in certs/asguer.crt
+
+echo "7.2.2 Making asguer certificate chain"
+cat certs/asguer.crt ./ca/team-ca.crt ./ca/root-ca.crt > ./giveToAsguer/asguer.ca-bundle
+
+echo "7.2.3 Converting asguer certificate chain to p7b (for Windows Microsoft)"
+openssl crl2pkcs7 -nocrl -certfile ./giveToAsguer/asguer.ca-bundle -out ./giveToAsguer/asguer.p7b
 
 # in the users computer run the following commands to retrieve these files:
 # scp -r svs24:/home/otto/SecurityInDistributedSystemsRepo/DockerBlueprintApacheServ/certs/giveToJonnas /mnt/DataDisk/Downloads/certs/
-
-# converter a chain toda para p7b
-# chave + certificado = pfx
 
 echo "Creating CA-bundle file from CRT files"
 # https://cleantalk.org/help/ssl-ca-bundle
