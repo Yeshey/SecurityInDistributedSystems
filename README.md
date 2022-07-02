@@ -276,3 +276,7 @@ to create safeguard before appending rules to revert to safe ruleset after certa
 
 - JusT:
 Tem 2 dockers a correr, backend e o normal
+Tuts I found for it:
+- [Apache server on Docker with HTTPS](https://codeburst.io/http-server-on-docker-with-https-7b5468f72874)
+- [stackoverflow](https://stackoverflow.com/questions/50702648/apache-2-4-reverse-proxy-to-node-application-on-docker)
+- [Build your Node image docker](https://docs.docker.com/language/nodejs/build-images/)
