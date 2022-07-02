@@ -156,26 +156,38 @@ openssl ca \
 # try this in everything
 # string_mask             = utf8only  # <--------------
 
-echo "6.6 Creating PKCS#12 bundle"
-openssl pkcs12 -export \
-    -name "jonnas Rubble (Network Access)" \
-    -caname "Haw TLS CA" \
-    -caname "Haw Root CA" \
-    -inkey certs/jonnas.key \
-    -in certs/jonnas.crt \
-    -certfile ca/team-ca-chain.pem \
-    -out certs/jonnas.p12
+#echo "6.6 Creating PKCS#12 bundle"
+#openssl pkcs12 -export \
+#    -name "jonnas Rubble (Network Access)" \
+#    -caname "Haw TLS CA" \
+#    -caname "Haw Root CA" \
+#    -inkey certs/jonnas.key \
+#    -in certs/jonnas.crt \
+#    -certfile ca/team-ca-chain.pem \
+#    -out certs/jonnas.p12
+
+mkdir giveToJonnas
+
+echo "6.7 Converting jonnas certificate + key to pfx"
+openssl pkcs12 -export -out giveToJonnas/jonnas.pfx -inkey certs/jonnas.key -in certs/jonnas.crt
+
+echo "6.8 Making jonnas certificate chain"
+cat certs/jonnas.crt ./ca/team-ca.crt ./ca/root-ca.crt > ./giveToJonnas/jonnas.ca-bundle
+
+echo "6.9 Converting jonnas certificate chain to p7b"
+openssl crl2pkcs7 -nocrl -certfile ./giveToJonnas/jonnas.ca-bundle -out ./giveToJonnas/jonnas.p7b
+
+# in the users computer run the following commands to retrieve these files:
+# scp svs24:/home/otto/SecurityInDistributedSystemsRepo/DockerBlueprintApacheServ/certs/giveToJonnas/jonnas.ca-bundle /mnt/DataDisk/Downloads/certs/
+# scp svs24:~/SecurityInDistributedSystemsRepo/DockerBlueprintApacheServ/certs/giveToJonnas/jonnas.p7b /mnt/DataDisk/Downloads/certs/
+# scp svs24:~/SecurityInDistributedSystemsRepo/DockerBlueprintApacheServ/certs/giveToJonnas/jonnas.pfx /mnt/DataDisk/Downloads/certs/ 
+
+# converter a chain toda para p7b
+# chave + certificado = pfx
 
 echo "Creating CA-bundle file from CRT files"
 # https://cleantalk.org/help/ssl-ca-bundle
-cat ./certs/svs24.ful.informatik.haw-hamburg.de.crt ./ca/tls-ca.crt ./ca/team-ca.crt ./ca/root-ca.crt > ./ca/svs24.ca-bundle
-# https://serverfault.com/questions/476576/how-to-combine-various-certificates-into-single-pem
-#  certificate_list
-#    This is a sequence (chain) of X.509v3 certificates.  The sender's
-#    certificate must come first in the list.  Each following
-#    certificate must directly certify the one preceding it.  Because
-#    certificate validation requires that root keys be distributed
-#    independently, the self-signed certificate that specifies the root
-#    certificate authority may optionally be omitted from the chain,
-#    under the assumption that the remote end must already possess it
-#    in order to validate it in any case.
+# Use one chain for server certificate
+cat ./certs/svs24.ful.informatik.haw-hamburg.de.crt ./ca/tls-ca.crt ./ca/root-ca.crt > ./ca/svs24.ca-bundle
+# Use another chain for user certificates
+cat ./ca/team-ca.crt ./ca/root-ca.crt > ./ca/users.ca-bundle
