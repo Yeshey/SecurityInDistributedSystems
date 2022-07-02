@@ -132,7 +132,7 @@ It has to be in the right order:
 
 ![SelfSigned](.imgs/SelfSigned.png)
 
-1. That is one chain, the other chain is with the root cert & team cert, and is used for user athentication
+1. That is one chain, the other chain is with the root cert & team cert, and is used for user athentication (you only have chains, not trees of certificates)
    1. The apache uses that root-team_cert chain, so it accepts all the certificates that were signed by that team certificate. (check the apache2-user-config.conf file)
    2. The user has a certificate that was signed by the team certificate, basically the user needs:
       1. Linux:
