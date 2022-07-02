@@ -10,9 +10,8 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
     - [1.2.3. Adding CRL revogation lists](#123-adding-crl-revogation-lists)
   - [1.3. Understanding the certs & hierarchy](#13-understanding-the-certs--hierarchy)
   - [1.4. Random Notes](#14-random-notes)
-  - [1.5. Professor notices](#15-professor-notices)
-  - [1.6. Credentials](#16-credentials)
-  - [1.7. Make browser be able to accept it as a certificate authority](#17-make-browser-be-able-to-accept-it-as-a-certificate-authority)
+  - [1.5. Credentials](#15-credentials)
+  - [1.6. Make browser be able to accept it as a certificate authority](#16-make-browser-be-able-to-accept-it-as-a-certificate-authority)
 - [2. ssh](#2-ssh)
   - [2.1. ssh without password (using a public and a private key)](#21-ssh-without-password-using-a-public-and-a-private-key)
   - [2.2. setting up ssh tunneling to connect and send files to the server](#22-setting-up-ssh-tunneling-to-connect-and-send-files-to-the-server)
@@ -24,10 +23,11 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
   - [3.3. Credentials](#33-credentials)
 - [4. Docker](#4-docker)
   - [4.1. Commands](#41-commands)
-- [5. Forward Secrecy](#5-forward-secrecy)
-  - [5.1. 5.1 Enabling forward secrecy on apache](#51-51-enabling-forward-secrecy-on-apache)
-- [6. Firewall](#6-firewall)
-  - [6.1. 6.1 Install and configure IPTables](#61-61-install-and-configure-iptables)
+- [5. Firewall](#5-firewall)
+  - [5.1. 6.1 Install and configure IPTables](#51-61-install-and-configure-iptables)
+- [6. Professor](#6-professor)
+  - [6.1. Questions](#61-questions)
+  - [6.2. Notices](#62-notices)
 
 ## 1. certificates
 
@@ -145,11 +145,11 @@ It has to be in the right order:
     C: CountryName 
   ```
 
-### 1.6. Credentials
+### 1.5. Credentials
 
 - Our certificates passphrase: *Stunt-Headwear-Lung1*
 
-### 1.7. [Make browser be able to accept it as a certificate authority](https://serverfault.com/questions/919768/cannot-add-a-self-signed-certificate-in-firefox)
+### 1.6. [Make browser be able to accept it as a certificate authority](https://serverfault.com/questions/919768/cannot-add-a-self-signed-certificate-in-firefox)
 
 ## 2. ssh
 
@@ -162,14 +162,18 @@ It has to be in the right order:
 - add this to your ~/.ssh/config file:
 
   ```txt
-      Host haw
-      User          otto
-      HostName      svs24.ful.informatik.haw-hamburg.de
-      ProxyCommand  ssh Joao.SilvadeAlmeida@haw-hamburg.de@hop-ful.informatik.haw-hamburg.de  nc %h %p 2> /dev/null
+  HOST haw
+      HostName hop-ful.informatik.haw-hamburg.de
+      User Joao.SilvadeAlmeida@haw-hamburg.de
+    
+  HOST svs24
+      HostName svs24.ful.informatik.haw-hamburg.de
+      User otto
+      ProxyJump haw
   ```
 
-- You can then ssh with `ssh haw`
-- Or copy files to there with: `scp ./folderName.tgz haw:~`
+- You can then ssh with `ssh svs24`
+- Or copy files to there with: `scp ./folderName.tgz svs24:~`
 
 ### 2.3. Credentials
 
@@ -211,42 +215,52 @@ It has to be in the right order:
   docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker build -t svs:latest . ; docker run -d -p 80:80 -p 443:443 --name svs svs:latest
   ```
 
-## 6. Firewall
+## 5. Firewall
 
-### 6.1. 6.1 Install and configure IPTables
+### 5.1. 6.1 Install and configure IPTables
 
 - Installation and configuration, used [this](https://www.hostinger.com/tutorials/iptables-tutorial) and [this](https://www.youtube.com/watch?v=qPEA6J9pjG8)
 - For scheduled commands as a safeguard, we used [this](https://www.computerhope.com/unix/uat.htm)
 - iptables-apply - a safer way to update iptables remotely
+
   ```bash
   iptables-apply [-hV] [-t timeout] [-w savefile] {[rulesfile]|-c [runcmd]}
   ```
+
 - We the command
+
 ```bash
 at 
-``` 
+```
+
 to create safeguard before appending rules to revert to safe ruleset after certain amount of time (this case 5 minutes)
+
   ```bash
   sudo at -vM now +5 minutes 
   ```
+
   This can used to view if there are any scheduled commands and when they will be executed
+
   ```bash
   atq
   ```
+
   Text editor will prompt for commands to be scheduled - we type
+
   ```bash
   iptables-restore /etc/iptables/1st_ruleset.v4 
   ```
+
   This is a safestate with SSH access.
   
-## Professor
+## 6. Professor
 
-### Questions
+### 6.1. Questions
 
 - Are Revogation lists set up correctly?
 - How to make browser accept our certificate?, we have the thing in [this](https://serverfault.com/questions/919768/cannot-add-a-self-signed-certificate-in-firefox) site, but it still doesn't work?
 
-### Notices
+### 6.2. Notices
 
 - JusT:
 Tem 2 dockers a correr, backend e o normal
