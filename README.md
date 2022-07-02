@@ -138,9 +138,11 @@ It has to be in the right order:
       1. Linux:
          - A pfx file wich has the key and the key of the user certificate.
          - The root, team & user crt certificate files to add to the linux system ([see this for manjaro instructions](https://warlord0blog.wordpress.com/2021/01/17/trusting-ca-certificates-manjaro/))
+         - Add the pfx to browser (only worked in firefox), by importing certificates
       2. Windows:
          - A pfx file wich has the key and the key of the user certificate.
          - A p7b Microsoft file made out of all the other certificates to add to windows systems.
+         - - Add the pfx to browser, by importing certificates
 
 ### 1.4. Random Notes
 
