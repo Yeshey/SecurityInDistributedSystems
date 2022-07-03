@@ -16,7 +16,6 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
   - [2.1. ssh without password (using a public and a private key)](#21-ssh-without-password-using-a-public-and-a-private-key)
   - [2.2. setting up ssh tunneling to connect and send files to the server](#22-setting-up-ssh-tunneling-to-connect-and-send-files-to-the-server)
   - [2.3. Credentials](#23-credentials)
-  - [2.4. Random Notes](#24-random-notes)
 - [3. web server](#3-web-server)
   - [3.1. Link to server](#31-link-to-server)
   - [3.2. Check the Certificate Quality](#32-check-the-certificate-quality)
@@ -189,14 +188,9 @@ It has to be in the right order:
 
 ### 2.3. Credentials
 
-- When doing `ssh haw`:
+- When doing `ssh svs24`, if you haven't set up the keys yet:
   - First input your password for your haw account
   - Input the machine's password: *BigDickEnergy* *(should change)*
-
-### 2.4. Random Notes
-
-- If you wanted to login without typing a password, you had to put the public key of your computer on the remote servers, and do ssh tunneling somehow.
-- Go to the server and in a .ssh put my public key from your PC..?
 
 ## 3. web server
 
@@ -280,3 +274,5 @@ Tuts I found for it:
 - [Apache server on Docker with HTTPS](https://codeburst.io/http-server-on-docker-with-https-7b5468f72874)
 - [stackoverflow](https://stackoverflow.com/questions/50702648/apache-2-4-reverse-proxy-to-node-application-on-docker)
 - [Build your Node image docker](https://docs.docker.com/language/nodejs/build-images/)
+- [Client certificate authentication over a reverse proxy](https://github.security.telekom.com/2020/05/smuggling-http-headers-through-reverse-proxies.html) 💯
+- [Tricks to do client certificate authentications behind a reverse proxy](http://www.zeitoun.net/articles/client-certificate-x509-authentication-behind-reverse-proxy/start)
