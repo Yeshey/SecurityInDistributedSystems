@@ -223,48 +223,55 @@ It has to be in the right order:
 
 ### 4.1. [Communication between Docker images](https://www.tutorialworks.com/container-networking/)
 
+
 ## 5. Firewall
 
-### 5.1. 6.1 Install and configure IPTables
+### 5.1. Install and configure IPTables
 
 - Installation and configuration, used [this](https://www.hostinger.com/tutorials/iptables-tutorial) and [this](https://www.youtube.com/watch?v=qPEA6J9pjG8)
 - For scheduled commands as a safeguard, we used [this](https://www.computerhope.com/unix/uat.htm)
-- iptables-apply - a safer way to update iptables remotely
 
-  ```bash
-  iptables-apply [-hV] [-t timeout] [-w savefile] {[rulesfile]|-c [runcmd]}
-  ```
+### 5.2 How to apply rules and while avoid bricking the server
 
-- The 
-
-```bash
-at 
-```
-
-command can be used to as a safeguard rules to revert to safe ruleset after certain amount of time (this case 5 minutes)
+The command beneath can be used to as a safeguard rules to revert to safe ruleset after certain amount of time (this case 5 minutes)
 
   ```bash
   sudo at -vM now +5 minutes 
   ```
 
-  This can used to view if there are any scheduled commands and when they will be executed
+  Text editor will prompt for commands to be typed. We can set the iptables ruleset to be flushed. This will allow all connections and thus giving access again.
 
   ```bash
-  atq
+  sudo iptables -F
   ```
-
-  Text editor will prompt for commands to be scheduled - we type
-
-  ```bash
-  iptables-restore /etc/iptables/1st_ruleset.v4 
-  ```
-
-  This is a safestate with SSH access.
+### 5.3 How to lower firewall
   
-For using hostnames with iptables, use [this](https://www.putorius.net/ipset-iptables-rules-for-hostname.html)
+ With the current iptables ruleset, connnecting to the server with VSCode is not possible. A rule in iptables need to be removed.
 
-Common hostnames used by VSCODE (to use LiveShare while firewall is up) [list](https://code.visualstudio.com/docs/setup/network)
-  
+To find the specific rule that keeps VSCode and everything else from connecting, this command will show what needs to be deleted
+```bash
+sudo iptables -L INPUT --line-numbers
+```
+From the above command, something like this should be the output:
+```bash
+Chain INPUT (policy ACCEPT)
+num  target     prot opt source               destination
+1    ACCEPT     tcp  --  anywhere             anywhere             tcp dpt:ssh
+2    ACCEPT     tcp  --  anywhere             anywhere             tcp dpt:http
+3    ACCEPT     tcp  --  anywhere             anywhere             tcp dpt:https
+4    DROP       all  --  anywhere             anywhere
+
+```
+Now to remove the rule that blocks the all connections except for ssh, http and https, use the command below.
+```bash
+sudo iptables -D INPUT 4
+```
+``  IMPORTANT: Be cautious and sure about the rule line number that you type. If it is the ssh ACCEPT that is deleted the server might be bricked. ``
+
+### 5.4 A possible way to allow VSCode in the server
+For using hostnames with iptables, we may use [this](https://www.putorius.net/ipset-iptables-rules-for-hostname.html)
+Common hostnames used by VSCode [list](https://code.visualstudio.com/docs/setup/network)
+
 ## 6. Professor
 
 ### 6.1. Questions
