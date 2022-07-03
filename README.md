@@ -9,19 +9,20 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
     - [1.2.2. Stich the 3 together in a bundle with this site](#122-stich-the-3-together-in-a-bundle-with-this-site)
     - [1.2.3. Adding CRL revogation lists](#123-adding-crl-revogation-lists)
   - [1.3. Understanding the certs & hierarchy](#13-understanding-the-certs--hierarchy)
-  - [1.4. Random Notes](#14-random-notes)
+  - [1.4. + Notes](#14--notes)
   - [1.5. Credentials](#15-credentials)
   - [1.6. Make browser be able to accept it as a certificate authority](#16-make-browser-be-able-to-accept-it-as-a-certificate-authority)
 - [2. ssh](#2-ssh)
   - [2.1. ssh without password (using a public and a private key)](#21-ssh-without-password-using-a-public-and-a-private-key)
   - [2.2. setting up ssh tunneling to connect and send files to the server](#22-setting-up-ssh-tunneling-to-connect-and-send-files-to-the-server)
   - [2.3. Credentials](#23-credentials)
-- [3. web server](#3-web-server)
+- [3. Server](#3-server)
   - [3.1. Link to server](#31-link-to-server)
   - [3.2. Check the Certificate Quality](#32-check-the-certificate-quality)
   - [3.3. Credentials](#33-credentials)
 - [4. Docker](#4-docker)
   - [4.1. Commands](#41-commands)
+  - [Understanding Backend Node Server](#understanding-backend-node-server)
   - [4.1. Communication between Docker images](#41-communication-between-docker-images)
 - [5. Firewall](#5-firewall)
   - [5.1. Install and configure IPTables](#51-install-and-configure-iptables)
@@ -147,10 +148,10 @@ It has to be in the right order:
          - A p7b Microsoft file made out of all the other certificates to add to windows systems.
          - Add the pfx to browser, by importing certificates
          - View the following video to understand how it's done:
-         
-https://user-images.githubusercontent.com/41551785/177058176-7cbf07c4-0571-4264-bc32-b1c3b70d69cf.mp4
 
-### 1.4. Random Notes
+![SelfSigned](.imgs/HowToInstallCertsWindows.gif)
+
+### 1.4. + Notes
 
 - Letters meaning in creation of certificates:
 
@@ -199,7 +200,7 @@ https://user-images.githubusercontent.com/41551785/177058176-7cbf07c4-0571-4264-
   - First input your password for your haw account
   - Input the machine's password: *BigDickEnergy* *(should change)*
 
-## 3. web server
+## 3. Server
 
 - apache:
   - configuration at `DockerBlueprintApacheServ/apache2-user-config.conf`  
@@ -221,12 +222,42 @@ https://user-images.githubusercontent.com/41551785/177058176-7cbf07c4-0571-4264-
 
 ### 4.1. Commands
 
-- switch to inside running docker image: `docker exec -t -i svs /bin/bash`
-- Command to delete everything and restart everything:
+- switch to inside running docker image example: `docker exec -t -i svs /bin/bash`
+- To delete and rerun docker images check the scripts
+  - `runApacheDocker.sh`
+  - `runBackendDocker.sh`
+  - `runDockers.sh`
 
-  ```bash
-  service docker restart ; docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker build -t svs:latest . ; docker run -d -p 80:80 -p 443:443 --name svs svs:latest
-  ```
+### Understanding Backend Node Server
+
+- In the server in [[...]/welcomeuser/](https://svs24.ful.informatik.haw-hamburg.de/welcomeuser/), the name of the User accessing is displayed, this is extracted from the certificate, here's how it's done:  
+  1. There is another docker file with a node server running
+  2. A docker network is created with: `docker network create rusty-net`, so both dockers can communicate with their name
+  3. When the user accesses the /welcomeuser/ subfolder, apache sends a get request to the backend with the headers of the certificate like this:
+
+    ```bash
+      <Location /welcomeuser/>
+
+        RequestHeader set SSL_CLIENT_S_DN "%{SSL_CLIENT_S_DN}s"
+        RequestHeader set SSL_CLIENT_I_DN "%{SSL_CLIENT_I_DN}s"
+        RequestHeader set SSL_SERVER_S_DN_OU "%{SSL_SERVER_S_DN_OU}s"
+        RequestHeader set SSL_CLIENT_VERIFY "%{SSL_CLIENT_VERIFY}s"
+    
+        # https://www.tutorialworks.com/container-networking/
+        ProxyPass          http://backend:3000
+        ProxyPassReverse   http://backend:3000
+
+    </Location>
+    ```
+
+Notice How we use *backend* to access the other docker  
+  4. The backend server responds with and html string with the relevant extracted certificate data.  
+  5. These were the tutorials that helped in this setup:
+
+- [How to build a Nodejs app on docker](https://linuxhint.com/build_nodejs_app_docker/)
+- [Client certificate authentication over a reverse proxy](https://github.security.telekom.com/2020/05/smuggling-http-headers-through-reverse-proxies.html)
+- [Tricks to do client certificate authentications behind a reverse proxy](http://www.zeitoun.net/articles/client-certificate-x509-authentication-behind-reverse-proxy/start)
+- [How to extract request http headers from a request using NodeJS connect](https://stackoverflow.com/questions/13147693/how-to-extract-request-http-headers-from-a-request-using-nodejs-connect)
 
 ### 4.1. [Communication between Docker images](https://www.tutorialworks.com/container-networking/)
 
@@ -290,12 +321,4 @@ Common hostnames used by VSCode [list](https://code.visualstudio.com/docs/setup/
 
 ### 6.1. Questions
 
-- Are Revogation lists set up correctly?
-- How to make browser accept our certificate?, we have the thing in [this](https://serverfault.com/questions/919768/cannot-add-a-self-signed-certificate-in-firefox) site, but it still doesn't work?
-
 ### 6.2. Notices
-
-- [How to build a Nodejs app on docker](https://linuxhint.com/build_nodejs_app_docker/)
-- [Client certificate authentication over a reverse proxy](https://github.security.telekom.com/2020/05/smuggling-http-headers-through-reverse-proxies.html)
-- [Tricks to do client certificate authentications behind a reverse proxy](http://www.zeitoun.net/articles/client-certificate-x509-authentication-behind-reverse-proxy/start)
-- [How to extract request http headers from a request using NodeJS connect](https://stackoverflow.com/questions/13147693/how-to-extract-request-http-headers-from-a-request-using-nodejs-connect)
