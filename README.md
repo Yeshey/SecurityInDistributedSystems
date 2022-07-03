@@ -281,12 +281,7 @@ Common hostnames used by VSCode [list](https://code.visualstudio.com/docs/setup/
 
 ### 6.2. Notices
 
-- JusT:
-Tem 2 dockers a correr, backend e o normal
-Tuts I found for it:
-- [Apache server on Docker with HTTPS](https://codeburst.io/http-server-on-docker-with-https-7b5468f72874)
-- [stackoverflow](https://stackoverflow.com/questions/50702648/apache-2-4-reverse-proxy-to-node-application-on-docker)
-- [Build your Node image docker](https://docs.docker.com/language/nodejs/build-images/)
-- [Client certificate authentication over a reverse proxy](https://github.security.telekom.com/2020/05/smuggling-http-headers-through-reverse-proxies.html) 💯
+- [How to build a Nodejs app on docker](https://linuxhint.com/build_nodejs_app_docker/)
+- [Client certificate authentication over a reverse proxy](https://github.security.telekom.com/2020/05/smuggling-http-headers-through-reverse-proxies.html)
 - [Tricks to do client certificate authentications behind a reverse proxy](http://www.zeitoun.net/articles/client-certificate-x509-authentication-behind-reverse-proxy/start)
 - [How to extract request http headers from a request using NodeJS connect](https://stackoverflow.com/questions/13147693/how-to-extract-request-http-headers-from-a-request-using-nodejs-connect)
