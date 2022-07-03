@@ -261,6 +261,10 @@ command can be used to as a safeguard rules to revert to safe ruleset after cert
 
   This is a safestate with SSH access.
   
+For using hostnames with iptables, use [this](https://www.putorius.net/ipset-iptables-rules-for-hostname.html)
+
+Common hostnames used by VSCODE (to use LiveShare while firewall is up) [list](https://code.visualstudio.com/docs/setup/network)
+  
 ## 6. Professor
 
 ### 6.1. Questions

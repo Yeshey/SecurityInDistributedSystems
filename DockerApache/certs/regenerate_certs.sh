@@ -144,7 +144,7 @@ mkdir giveToJonnas
 
 echo "6.4 Creating TLS client request"
 openssl req -new \
-    -config etc/client.conf \
+    -config etc/jonnas.conf \
     -out certs/jonnas.csr \
     -keyout certs/jonnas.key
 
@@ -174,7 +174,7 @@ mkdir giveToAsguer
 
 echo "7.2.1 Creating TLS client request"
 openssl req -new \
-    -config etc/client.conf \
+    -config etc/asguer.conf \
     -out certs/asguer.csr \
     -keyout certs/asguer.key
 
