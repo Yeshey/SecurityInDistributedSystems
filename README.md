@@ -146,6 +146,9 @@ It has to be in the right order:
          - A pfx file wich has the key and the key of the user certificate.
          - A p7b Microsoft file made out of all the other certificates to add to windows systems.
          - Add the pfx to browser, by importing certificates
+         - View the following video to understand how it's done:
+         
+https://user-images.githubusercontent.com/41551785/177058176-7cbf07c4-0571-4264-bc32-b1c3b70d69cf.mp4
 
 ### 1.4. Random Notes
 
