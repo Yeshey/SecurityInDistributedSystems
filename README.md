@@ -22,13 +22,13 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
   - [3.3. Credentials](#33-credentials)
 - [4. Docker](#4-docker)
   - [4.1. Commands](#41-commands)
-  - [Understanding Backend Node Server](#understanding-backend-node-server)
-  - [4.1. Communication between Docker images](#41-communication-between-docker-images)
+  - [4.2. Understanding Backend Node Server](#42-understanding-backend-node-server)
+  - [4.3. Communication between Docker images](#43-communication-between-docker-images)
 - [5. Firewall](#5-firewall)
   - [5.1. Install and configure IPTables](#51-install-and-configure-iptables)
-  - [5.2 How to apply rules and while avoid bricking the server](#52-how-to-apply-rules-and-while-avoid-bricking-the-server)
-  - [5.3 How to lower firewall](#53-how-to-lower-firewall)
-  - [5.4 A possible way to allow VSCode in the server](#54-a-possible-way-to-allow-vscode-in-the-server)
+  - [5.2. 5.2 How to apply rules and while avoid bricking the server](#52-52-how-to-apply-rules-and-while-avoid-bricking-the-server)
+  - [5.3. 5.3 How to lower firewall](#53-53-how-to-lower-firewall)
+  - [5.4. 5.4 A possible way to allow VSCode in the server](#54-54-a-possible-way-to-allow-vscode-in-the-server)
 - [6. Professor](#6-professor)
   - [6.1. Questions](#61-questions)
   - [6.2. Notices](#62-notices)
@@ -228,7 +228,7 @@ It has to be in the right order:
   - `runBackendDocker.sh`
   - `runDockers.sh`
 
-### Understanding Backend Node Server
+### 4.2. Understanding Backend Node Server
 
 - In the server in [[...]/welcomeuser/](https://svs24.ful.informatik.haw-hamburg.de/welcomeuser/), the name of the User accessing is displayed, this is extracted from the certificate, here's how it's done:  
   1. There is another docker file with a node server running
@@ -259,7 +259,7 @@ Notice How we use *backend* to access the other docker
 - [Tricks to do client certificate authentications behind a reverse proxy](http://www.zeitoun.net/articles/client-certificate-x509-authentication-behind-reverse-proxy/start)
 - [How to extract request http headers from a request using NodeJS connect](https://stackoverflow.com/questions/13147693/how-to-extract-request-http-headers-from-a-request-using-nodejs-connect)
 
-### 4.1. [Communication between Docker images](https://www.tutorialworks.com/container-networking/)
+### 4.3. [Communication between Docker images](https://www.tutorialworks.com/container-networking/)
 
 ## 5. Firewall
 
@@ -268,7 +268,7 @@ Notice How we use *backend* to access the other docker
 - Installation and configuration, used [this](https://www.hostinger.com/tutorials/iptables-tutorial) and [this](https://www.youtube.com/watch?v=qPEA6J9pjG8)
 - For scheduled commands as a safeguard, we used [this](https://www.computerhope.com/unix/uat.htm)
 
-### 5.2 How to apply rules and while avoid bricking the server
+### 5.2. 5.2 How to apply rules and while avoid bricking the server
 
 The command beneath can be used to as a safeguard rules to revert to safe ruleset after certain amount of time (this case 5 minutes)
 
@@ -282,7 +282,7 @@ The command beneath can be used to as a safeguard rules to revert to safe rulese
   sudo iptables -F
   ```
 
-### 5.3 How to lower firewall
+### 5.3. 5.3 How to lower firewall
   
  With the current iptables ruleset, connnecting to the server with VSCode is not possible. A rule in iptables need to be removed.
 
@@ -312,7 +312,7 @@ sudo iptables -D INPUT 4
 
 ``IMPORTANT: Be cautious and sure about the rule line number that you type. If it is the ssh ACCEPT that is deleted the server might be bricked.``
 
-### 5.4 A possible way to allow VSCode in the server
+### 5.4. 5.4 A possible way to allow VSCode in the server
 
 For using hostnames with iptables, we may use [this](https://www.putorius.net/ipset-iptables-rules-for-hostname.html)
 Common hostnames used by VSCode [list](https://code.visualstudio.com/docs/setup/network)
