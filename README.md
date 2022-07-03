@@ -221,6 +221,8 @@ It has to be in the right order:
   service docker restart ; docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker build -t svs:latest . ; docker run -d -p 80:80 -p 443:443 --name svs svs:latest
   ```
 
+### 4.1. [Communication between Docker images](https://www.tutorialworks.com/container-networking/)
+
 ## 5. Firewall
 
 ### 5.1. 6.1 Install and configure IPTables
@@ -276,3 +278,4 @@ Tuts I found for it:
 - [Build your Node image docker](https://docs.docker.com/language/nodejs/build-images/)
 - [Client certificate authentication over a reverse proxy](https://github.security.telekom.com/2020/05/smuggling-http-headers-through-reverse-proxies.html) 💯
 - [Tricks to do client certificate authentications behind a reverse proxy](http://www.zeitoun.net/articles/client-certificate-x509-authentication-behind-reverse-proxy/start)
+- [How to extract request http headers from a request using NodeJS connect](https://stackoverflow.com/questions/13147693/how-to-extract-request-http-headers-from-a-request-using-nodejs-connect)

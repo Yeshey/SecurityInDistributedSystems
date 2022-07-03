@@ -53,6 +53,11 @@ COPY basicAuth/.htpasswd /etc/apache2/.htpasswd
 # Add welcome message
 RUN echo 'Welcome to your web portal.' > /etc/motd
 
+# to be able to run ProxyPass
+RUN a2enmod proxy_http
+# to be able to run RequestHeader
+RUN a2enmod headers
+
 # Apache
 COPY apache2-user-config.conf /etc/apache2/sites-available/webportal.conf
 RUN /bin/bash -c 'envsubst < /etc/apache2/sites-available/webportal.conf | tee /etc/apache2/sites-available/webportal.conf'
