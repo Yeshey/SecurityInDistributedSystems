@@ -22,8 +22,12 @@ DockerFiles, Certificate chains, Apache Server, Basic Authentication...
   - [3.3. Credentials](#33-credentials)
 - [4. Docker](#4-docker)
   - [4.1. Commands](#41-commands)
+  - [4.1. Communication between Docker images](#41-communication-between-docker-images)
 - [5. Firewall](#5-firewall)
-  - [5.1. 6.1 Install and configure IPTables](#51-61-install-and-configure-iptables)
+  - [5.1. Install and configure IPTables](#51-install-and-configure-iptables)
+  - [5.2 How to apply rules and while avoid bricking the server](#52-how-to-apply-rules-and-while-avoid-bricking-the-server)
+  - [5.3 How to lower firewall](#53-how-to-lower-firewall)
+  - [5.4 A possible way to allow VSCode in the server](#54-a-possible-way-to-allow-vscode-in-the-server)
 - [6. Professor](#6-professor)
   - [6.1. Questions](#61-questions)
   - [6.2. Notices](#62-notices)
@@ -141,7 +145,7 @@ It has to be in the right order:
       2. Windows:
          - A pfx file wich has the key and the key of the user certificate.
          - A p7b Microsoft file made out of all the other certificates to add to windows systems.
-         - - Add the pfx to browser, by importing certificates
+         - Add the pfx to browser, by importing certificates
 
 ### 1.4. Random Notes
 
@@ -223,7 +227,6 @@ It has to be in the right order:
 
 ### 4.1. [Communication between Docker images](https://www.tutorialworks.com/container-networking/)
 
-
 ## 5. Firewall
 
 ### 5.1. Install and configure IPTables
@@ -244,15 +247,19 @@ The command beneath can be used to as a safeguard rules to revert to safe rulese
   ```bash
   sudo iptables -F
   ```
+
 ### 5.3 How to lower firewall
   
  With the current iptables ruleset, connnecting to the server with VSCode is not possible. A rule in iptables need to be removed.
 
 To find the specific rule that keeps VSCode and everything else from connecting, this command will show what needs to be deleted
+
 ```bash
 sudo iptables -L INPUT --line-numbers
 ```
+
 From the above command, something like this should be the output:
+
 ```bash
 Chain INPUT (policy ACCEPT)
 num  target     prot opt source               destination
@@ -262,13 +269,17 @@ num  target     prot opt source               destination
 4    DROP       all  --  anywhere             anywhere
 
 ```
+
 Now to remove the rule that blocks the all connections except for ssh, http and https, use the command below.
+
 ```bash
 sudo iptables -D INPUT 4
 ```
-``  IMPORTANT: Be cautious and sure about the rule line number that you type. If it is the ssh ACCEPT that is deleted the server might be bricked. ``
+
+``IMPORTANT: Be cautious and sure about the rule line number that you type. If it is the ssh ACCEPT that is deleted the server might be bricked.``
 
 ### 5.4 A possible way to allow VSCode in the server
+
 For using hostnames with iptables, we may use [this](https://www.putorius.net/ipset-iptables-rules-for-hostname.html)
 Common hostnames used by VSCode [list](https://code.visualstudio.com/docs/setup/network)
 
