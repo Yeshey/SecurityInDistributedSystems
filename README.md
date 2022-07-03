@@ -224,7 +224,7 @@ It has to be in the right order:
 - Command to delete everything and restart everything:
 
   ```bash
-  docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker build -t svs:latest . ; docker run -d -p 80:80 -p 443:443 --name svs svs:latest
+  service docker restart ; docker rm -vf $(docker ps -aq) ; docker rmi -f $(docker images -aq) ; docker build -t svs:latest . ; docker run -d -p 80:80 -p 443:443 --name svs svs:latest
   ```
 
 ## 5. Firewall
@@ -239,13 +239,13 @@ It has to be in the right order:
   iptables-apply [-hV] [-t timeout] [-w savefile] {[rulesfile]|-c [runcmd]}
   ```
 
-- We the command
+- The 
 
 ```bash
 at 
 ```
 
-to create safeguard before appending rules to revert to safe ruleset after certain amount of time (this case 5 minutes)
+command can be used to as a safeguard rules to revert to safe ruleset after certain amount of time (this case 5 minutes)
 
   ```bash
   sudo at -vM now +5 minutes 
